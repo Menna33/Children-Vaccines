@@ -1,7 +1,7 @@
 <?php ?>
 <html>
 <head>
-<title>Log In</title>
+<title>Nurse</title>
 <link rel="stylesheet" href="./css/styles.css">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -14,10 +14,14 @@
     <!-- Tabs Titles -->
      <div> </div>
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn first" name="login" placeholder="Name">
-      <input type="text" id="password" class="fadeIn second" name="login" placeholder="Password">
-      <input type="submit" class="fadeIn fourth" value="Log In">
+    <form role="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+                    <label for="nationalID" class="col-sm-3 control-label">National ID For Baby* </label>
+                    <div class="col-sm-9">
+                        <input type="number" name="nationalID"  id="nationalID" placeholder="National ID" class="form-control">
+                    </div>
+                </div>
+      <input type="submit" class="fadeIn fourth" value="Go">
     </form>
 
 
