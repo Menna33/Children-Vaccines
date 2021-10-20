@@ -1,53 +1,41 @@
-<?php  
+<?php
 require './helpers/dbConnection.php';
 require './helpers/validator.php';
+$sql = "select * from babies";
+$op  =  mysqli_query($con,$sql);
+while($data=mysqli_fetch_assoc($op))
+{
+   $national_id=$data['national_id'];
+   echo $national_id.'<br';
+   //baby's birth date as string
+   $year= '20'.substr($national_id,1,2); 
+   $month= substr($national_id,3,2);
+   $day= substr($national_id,5,2);
+   echo $date1=($year.'-'.$month.'-'.$day);
+  // $interval = new DateTime(date("Y-m-d"))->diff(new DateTime($date1));
+  // echo 'interval: '.$interval;
+   echo 'time: '.time();
+   echo '<br>timeeee: '.strtotime($date1);
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+   /*echo strtotime($year.'-'.$month.'-'.$day);
+   
+   echo strtotime($day.'-'.$month.'-'.$year);*/
 
-$name       =  clean($_POST['name']); 
-$age      =  clean($_POST['age']);
+   //$date1 = new DateTime("2007-03-24");
+/*$date2 = new DateTime("2009-06-26");
+$interval = $date1->diff($date2);
+echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
 
-$errors = [];
-#Name Valdiation
-  if(!validate($name,1)){
-     $errors['Name'] = "Field Required";
-  }
-  if(!validate($name,7)){
-    $errors['Name'] = "Name must be string";
- }
-#Age Validation
-if(!validate($age,1)){
-    $errors['age'] = "Field Required";
- }
- if(validate($age,7)){
-   $errors['age'] = "Age must be integer";
+// shows the total amount of days (not divided into years, months and days like above)
+echo "difference " . $interval->days . " days ";*/
+/******************************** */
+$now = time(); // or your date as well
+$your_date = strtotime("2010-01-31");
+$datediff = $now - $your_date;
+
+echo round($datediff / (60 * 60 * 24));
+
 }
-
-  if(count($errors) > 0){
-      foreach($errors as $key => $val ){
-          echo '* '.$key.' :  '.$val.'<br>';
-      }
-  }else{
-      
-     // db code .... 
-     $sql = "insert into vaccines (name,age) values ('$name',$age)";
-     $op  =  mysqli_query($con,$sql);
-     /*echo mysqli_error($con);
-     exit();*/
-     if($op){
-        echo "<b> Data Inserted </b>";
-    }
-    else{
-         echo '<p style="color:red;"><b>Error Try Again</b></p>';
-      }
-     # close connection ... 
-     mysqli_close($con);
-
-     
-     }
-}
-
-
 ?>
 <html>
 <head>
@@ -59,7 +47,7 @@ if(!validate($age,1)){
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<title>ِAdd New Vaccine</title>
+<title>Send Notifications</title>
 <link rel="stylesheet" href="./css/new_baby.css">
 <!------ Include the above in your HEAD tag ---------->
 </head>

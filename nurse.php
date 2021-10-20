@@ -9,6 +9,9 @@
 </head>
 <!------ Include the above in your HEAD tag ---------->
 <body>
+<a href="logout.php" class="btn btn-info btn-lg">
+          <span class="glyphicon glyphicon-log-out"></span> Log out
+        </a>
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Tabs Titles -->

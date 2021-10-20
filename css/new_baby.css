@@ -1,0 +1,33 @@
+body {
+/*background: url('https://static-communitytable.parade.com/wp-content/uploads/2014/03/rethink-target-heart-rate-number-ftr.jpg') fixed;*/
+/*background-size: cover;*/
+background: url('https://image.freepik.com/free-photo/beautiful-little-boy-sitting-by-window_1304-5647.jpg');/*de elly fiha el dabdob*/
+background-size: cover;
+/*background: url('https://as1.ftcdn.net/v2/jpg/03/27/37/82/500_F_327378277_zwVvYXtgfBaBd6B6YdobyhJUcwXvkyHZ.jpg');
+/*background: url('https://image.freepik.com/free-photo/it-so-nice-looking-little-baby_329181-14604.jpg');*/
+/*background: url('https://images.unsplash.com/photo-1533483595632-c5f0e57a1936?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmV3Ym9ybiUyMGJhYnl8ZW58MHx8MHx8&w=1000&q=80');*/
+/*background-size: 2000px 800px;*/
+
+}
+h2{
+   color:#428bca;
+}
+*[role="form"] {
+   max-width: 530px;
+   padding: 15px;
+   margin: auto;
+   border-radius: 0.3em;
+   background-color: #f2f2f2;
+}
+
+*[role="form"] h2 { 
+   font-family: 'Open Sans' , sans-serif;
+   font-size: 40px;
+   font-weight: 600;
+   color: #000000;
+   margin-top:0%;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 4px;
+}
+
