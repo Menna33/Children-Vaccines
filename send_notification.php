@@ -1,39 +1,68 @@
 <?php
 require './helpers/dbConnection.php';
 require './helpers/validator.php';
-$sql = "select * from babies";
-$op  =  mysqli_query($con,$sql);
-while($data=mysqli_fetch_assoc($op))
+$baby_sql = "select * from babies";
+$baby_op  =  mysqli_query($con,$baby_sql);
+$vaccine_sql = "select * from vaccines";
+$vaccine_op  =  mysqli_query($con,$vaccine_sql);
+echo   mysqli_error($con);
+//exit();
+while($data=mysqli_fetch_assoc($baby_op))
 {
    $national_id=$data['national_id'];
-   echo $national_id.'<br';
+   echo 'national_id: '.$national_id.'<br>';
    //baby's birth date as string
    $year= '20'.substr($national_id,1,2); 
    $month= substr($national_id,3,2);
    $day= substr($national_id,5,2);
-   echo $date1=($year.'-'.$month.'-'.$day);
-  // $interval = new DateTime(date("Y-m-d"))->diff(new DateTime($date1));
-  // echo 'interval: '.$interval;
-   echo 'time: '.time();
-   echo '<br>timeeee: '.strtotime($date1);
+   $birthDate=($year.'-'.$month.'-'.$day);
+  /* echo '$birthDate'.$birthDate.'<br>';
+   echo 'time: '.time().'<br>';
+   echo '<br>timeeee: '.strtotime($birthDate).'<br>';*/
+   $dateDiff = time() - strtotime($birthDate);
+   $dateDiffByMonth=round($dateDiff / (60 * 60 * 24*30));
+   /*echo round($dateDiff / (60 * 60 * 24)).'<br>'; //keda bigibo bel youm
+   echo $dateDiffByMonth.'<br>'; //keda bigibo bel month*/
+   $vaccine_data=mysqli_fetch_assoc($vaccine_op);
+   //print_r($vaccine_data);
+   $vaccine_data_array;
+   while( $row = mysqli_fetch_assoc($vaccine_op))
+{
+    //echo '$row : '.$row['name'][0];
+    $vaccine_data_array[$row['id']] = array(
+        'id' => $row['id'],
+        'name' => $row['name'],
+        'age' => $row['age']
+    );
+}
+//print_r($vaccine_data_array);
+foreach ($vaccine_data_array as $row)
+{
+  //echo "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj<br>";
+ // print_r ($row);
+  //echo $row['age'];
+  if($dateDiffByMonth== $row['age'])
+  {
+      echo "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm".'<br>';
+      //1-add new entry to babies' vaccines table
+      $vaccine_id=$row['id'];
+      $sql = "insert into babiesvaccines (baby_id,vaccine_id) values ($national_id,$vaccine_id)";
 
-   /*echo strtotime($year.'-'.$month.'-'.$day);
-   
-   echo strtotime($day.'-'.$month.'-'.$year);*/
-
-   //$date1 = new DateTime("2007-03-24");
-/*$date2 = new DateTime("2009-06-26");
-$interval = $date1->diff($date2);
-echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
-
-// shows the total amount of days (not divided into years, months and days like above)
-echo "difference " . $interval->days . " days ";*/
-/******************************** */
-$now = time(); // or your date as well
-$your_date = strtotime("2010-01-31");
-$datediff = $now - $your_date;
-
-echo round($datediff / (60 * 60 * 24));
+      $op  =  mysqli_query($con,$sql);
+      if($op){
+          echo 'Data Inserted into babies vaccines table';
+      }else{
+          echo 'Error in DB Try Again';
+      }
+      //2-send notification to parent
+      $subject='Your Baby Vaccine Time';
+      $content='Hello'.$data['parent_name'].'<br>'.'Your baby should take the vaccine';
+      ini_set('display_errors', '1');
+      mail($data['parent_email'],$subject, $content);
+  }
+  
+}
+     
 
 }
 ?>
