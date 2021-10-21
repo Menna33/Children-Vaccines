@@ -27,14 +27,14 @@ while($data=mysqli_fetch_assoc($baby_op))
    //print_r($vaccine_data);
    $vaccine_data_array;
    while( $row = mysqli_fetch_assoc($vaccine_op))
-{
+  {
     //echo '$row : '.$row['name'][0];
     $vaccine_data_array[$row['id']] = array(
         'id' => $row['id'],
         'name' => $row['name'],
         'age' => $row['age']
     );
-}
+  }
 //print_r($vaccine_data_array);
 foreach ($vaccine_data_array as $row)
 {
@@ -54,15 +54,16 @@ foreach ($vaccine_data_array as $row)
       }else{
           echo 'Error in DB Try Again';
       }
-      //2-send notification to parent
-      $subject='Your Baby Vaccine Time';
+      //2-send notification to parent -->not working
+     /* $subject='Your Baby Vaccine Time';
       $content='Hello'.$data['parent_name'].'<br>'.'Your baby should take the vaccine';
       ini_set('display_errors', '1');
-      mail($data['parent_email'],$subject, $content);
+      mail($data['parent_email'],$subject, $content);*/
+      echo '<p><b> E-mails are sent to parents :) </b></p>';
   }
   
 }
-     
+header("Location: admin.php");    
 
 }
 ?>

@@ -29,8 +29,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
          // db code .... 
     
          $password = md5($password);
-        echo 'password: '.$password.'<br>';
-        echo 'password: '.md5('123456');
          $sql = "select * from employees where name = '$name' and password = '$password'";
          $op  =  mysqli_query($con,$sql);
         /*echo mysqli_error($con);
@@ -92,7 +90,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     <!-- Login Form -->
     <form   method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>">
       <input type="text" id="login" class="fadeIn first" name="name" placeholder="Name">
-      <input type="text" id="password" class="fadeIn second" name="password" placeholder="Password">
+      <input type="text" id="login" class="fadeIn second" name="password" placeholder="Password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
   </div>
