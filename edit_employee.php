@@ -4,7 +4,30 @@ require './helpers/dbConnection.php';
 require './helpers/validator.php';
 require './helpers/functions.php';
 # Fetch Old Data .... 
-
+if(!(isset($_SESSION['admin']))) {
+    //echo "nnnnnnnnn";
+    if (isset($_SESSION['nurse']))
+    {
+      //echo "mmmmmmm";
+      header("Location: nurse.php");
+      //exit;
+    }
+    elseif (isset($_SESSION['data_employee']))
+    {
+      header("Location: data_employee.php");
+      //exit;
+    }
+    elseif (isset($_SESSION['health_employee']))
+    {
+      header("Location: health_employee.php");
+      //exit;
+    }
+    else
+    {
+      header("Location: login.php");
+    exit;
+    }
+  }
 $id = $_GET['id'];
 
 if(!validate($id,5)){
@@ -28,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
  $name = clean($_POST['name']); 
  $password = clean($_POST['password']);
- $role = clean($_POST['role']); 
+ $role = clean($_POST['role_id']); 
  $errors = [];
 
    if(!validate($name,1)){
@@ -49,7 +72,7 @@ if(!validate($password,1)){
        $_SESSION['Message'] = $errors;
    }else{
      // DB OP .... 
-     $sql = "update employees set name = '$name',password='$password',role_id='$role_id' where id = $id";
+     $sql = "update employees set name = '$name',password='$password',role_id='$role' where id = $id";
      $op  = mysqli_query($con,$sql);
      /*echo mysqli_error($con);
 exit();*/
@@ -109,7 +132,7 @@ require '../layouts/topNav.php';*/
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Password</label>
-                            <input type="number" name="password" class="form-control" id="exampleInputAge"
+                            <input type="password" name="password" class="form-control" id="exampleInputAge"
                                 aria-describedby="" placeholder="Enter Password" value="<?php echo $employee_data['password'];?>">
                         </div>
                         <div class="form-group">

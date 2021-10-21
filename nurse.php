@@ -1,4 +1,84 @@
-<?php ?>
+
+<?php 
+require './helpers/dbConnection.php';
+require './helpers/validator.php';
+//print_r($_SESSION['nurse']);
+if(!(isset($_SESSION['nurse']))) {
+  //echo "nnnnnnnnn";
+  if (isset($_SESSION['data_employee']))
+  {
+    //echo "mmmmmmm";
+    header("Location: data_employee.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['health_employee']))
+  {
+    header("Location: health_employee.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['admin']))
+  {
+    header("Location: admin.php");
+    //exit;
+  }
+  else
+  {
+    header("Location: login.php");
+  exit;
+  }
+}
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+  $nationalID = clean($_POST['nationalID']);
+  $errors = [];
+  # nationalID Validation ... 
+ if(!validate($nationalID,1)){
+  $errors['nationalID'] = "Field Required";
+}elseif(!validate($nationalID,9)){
+  $errors['nationalID'] = "nationalID must be int";
+}elseif(!validate($nationalID,10)){
+  $errors['nationalID'] = "National ID length must be 14";
+}
+if(count($errors) > 0){
+  foreach($errors as $key => $val ){
+      echo '* '.$key.' :  '.$val.'<br>';
+  }
+}else{
+
+ //$sql = "select vaccines.name, babies.name as babyName from vaccines join babiesvaccines on vaccines.id = babiesvaccines.vaccine_id join babies on babies.national_id=babiesvaccines.baby_id";
+ $sql = "select vaccines.name,babiesvaccines.id from vaccines join babiesvaccines on vaccines.id = babiesvaccines.vaccine_id and babiesvaccines.baby_id=$nationalID";
+ /*SELECT t1.col, t3.col
+FROM table1
+JOIN table2 ON table1.primarykey = table2.foreignkey
+JOIN table3 ON table2.primarykey = table3.foreignkey*/
+ $op  = mysqli_query($con,$sql); 
+ /*echo mysqli_error($con);
+     exit();*/
+?>
+     <div class="container" style="background: white;">
+     <h3 style="color:#428bca;">Vaccines for the National ID <?php echo $nationalID?> are :</h3>
+     <?php
+ while($data = mysqli_fetch_assoc($op))
+ { 
+//print_r($data);
+   ?>  
+<b><p style="color:#428bca;"><?php echo $data['name']?></p></b>
+<a class="btn btn-primary" href='taken.php?id=<?php echo $data['id'];?>' role="button">Taken</a>
+     
+ <?php
+ }
+ 
+ ?>
+
+
+
+ </div> 
+ <?php 
+ # close connection ... 
+ mysqli_close($con);
+ }
+}
+  
+?>
 <html>
 <head>
 <title>Nurse</title>
@@ -24,11 +104,8 @@
                         <input type="number" name="nationalID"  id="nationalID" placeholder="National ID" class="form-control">
                     </div>
                 </div>
-      <input type="submit" class="fadeIn fourth" value="Go">
+      <input type="submit" class="fadeIn fourth" value="View Vaccine">
     </form>
-
-
-
   </div>
 </div>
 </body>

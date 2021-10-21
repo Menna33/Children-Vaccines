@@ -2,6 +2,30 @@
 require './helpers/dbConnection.php';
 $sql="select * from vaccines";
 $op=mysqli_query($con,$sql);
+if(!(isset($_SESSION['health_employee']))) {
+  //echo "nnnnnnnnn";
+  if (isset($_SESSION['nurse']))
+  {
+    //echo "mmmmmmm";
+    header("Location: nurse.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['data_employee']))
+  {
+    header("Location: data_employee.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['admin']))
+  {
+    header("Location: admin.php");
+    //exit;
+  }
+  else
+  {
+    header("Location: login.php");
+  exit;
+  }
+}
 ?>
 <html>
 <head>

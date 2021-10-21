@@ -18,13 +18,37 @@ require './helpers/validator.php';
     }
 
 }*/
+if(!(isset($_SESSION['data_employee']))) {
+    //echo "nnnnnnnnn";
+    if (isset($_SESSION['nurse']))
+    {
+      //echo "mmmmmmm";
+      header("Location: nurse.php");
+      //exit;
+    }
+    elseif (isset($_SESSION['health_employee']))
+    {
+      header("Location: health_employee.php");
+      //exit;
+    }
+    elseif (isset($_SESSION['admin']))
+    {
+      header("Location: admin.php");
+      //exit;
+    }
+    else
+    {
+      header("Location: login.php");
+    exit;
+    }
+  }
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 $name       =  clean($_POST['name']); 
 $email      =  clean($_POST['email']);
 $nationalID = clean($_POST['nationalID']);
 //echo 'nationalID: '.$nationalID.'<br>';
-$phoneNumber=  clean($_POST['phoneNumber']);
+//$phoneNumber=  clean($_POST['phoneNumber']);
 $parentName=   clean($_POST['parentName']);
 //strlen($input) != 14
   /*echo var_dump($nationalID1); 
@@ -127,12 +151,7 @@ if(isset($_POST['gender'])){
                         <input  id="nationalID" type="number" name="nationalID" placeholder="National ID" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="birthDate" class="col-sm-3 control-label">Date of Birth*</label>
-                    <div class="col-sm-9">
-                        <input type="date" id="birthDate" name="date" class="form-control">
-                    </div>
-                </div>
+                
                 <div class="form-group">
                     <label class="control-label col-sm-3" >Gender*</label>
                     <div class="col-sm-6">
@@ -156,12 +175,7 @@ if(isset($_POST['gender'])){
                         <input type="text" id="firstName" name="parentName" placeholder="Name" class="form-control" autofocus>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="phoneNumber" class="col-sm-3 control-label">Parent Phone number* </label>
-                    <div class="col-sm-9">
-                        <input type="phoneNumber" id="phoneNumber" name="phoneNumber" placeholder="Phone number" class="form-control">
-                    </div>
-                </div>
+               
                 <div class="form-group">
                     <label for="email" class="col-sm-3 control-label">Parent Email* </label>
                     <div class="col-sm-9">

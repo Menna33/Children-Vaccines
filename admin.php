@@ -2,6 +2,30 @@
 require './helpers/dbConnection.php';
 $sql="select employees.*,roles.title from employees left join roles on employees.role_id=roles.id";
 $op=mysqli_query($con,$sql);
+if(!(isset($_SESSION['admin']))) {
+  //echo "nnnnnnnnn";
+  if (isset($_SESSION['nurse']))
+  {
+    //echo "mmmmmmm";
+    header("Location: nurse.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['data_employee']))
+  {
+    header("Location: data_employee.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['health_employee']))
+  {
+    header("Location: health_employee.php");
+    //exit;
+  }
+  else
+  {
+    header("Location: login.php");
+  exit;
+  }
+}
 ?>
 <html>
 <head>

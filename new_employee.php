@@ -3,6 +3,31 @@ require './helpers/dbConnection.php';
 require './helpers/validator.php';
 $sql = "select * from roles";
 $op  =  mysqli_query($con,$sql);
+if(!(isset($_SESSION['admin']))) {
+  //echo "nnnnnnnnn";
+  if (isset($_SESSION['nurse']))
+  {
+    //echo "mmmmmmm";
+    header("Location: nurse.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['data_employee']))
+  {
+    header("Location: data_employee.php");
+    //exit;
+  }
+  elseif (isset($_SESSION['health_employee']))
+  {
+    header("Location: health_employee.php");
+    //exit;
+  }
+  else
+  {
+    header("Location: login.php");
+  exit;
+  }
+}
+
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 $name     =  clean($_POST['name']); 
