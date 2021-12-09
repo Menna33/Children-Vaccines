@@ -43,9 +43,9 @@ if(count($errors) > 0){
       echo '* '.$key.' :  '.$val.'<br>';
   }
 }else{
-
+  $_SESSION['baby_id'] = $nationalID;
  //$sql = "select vaccines.name, babies.name as babyName from vaccines join babiesvaccines on vaccines.id = babiesvaccines.vaccine_id join babies on babies.national_id=babiesvaccines.baby_id";
- $sql = "select vaccines.name,babiesvaccines.id from vaccines join babiesvaccines on vaccines.id = babiesvaccines.vaccine_id and babiesvaccines.baby_id=$nationalID and babiesvaccines.taken=0";
+ $sql = "select vaccines.name,vaccines.id from vaccines join babiesvaccines on vaccines.id = babiesvaccines.vaccine_id and babiesvaccines.baby_id=$nationalID and babiesvaccines.taken=0";
  /*SELECT t1.col, t3.col
 FROM table1
 JOIN table2 ON table1.primarykey = table2.foreignkey
@@ -57,25 +57,30 @@ JOIN table3 ON table2.primarykey = table3.foreignkey*/
 ?>
      <div class="container" style="background: white;">
      <h3 style="color:#428bca;">Vaccines for the National ID <?php echo $nationalID?> are :</h3>
+     <form action="taken.php"  method="post" >
      <?php
      if($data = mysqli_fetch_assoc($op))
      { 
-       ?>  
-       <b><p style="color:#428bca;"><?php echo $data['name']?></p></b>
-       <a class="btn btn-primary" href='taken.php?id=<?php echo $data['id'];?>' role="button">Taken</a>
-            
+       ?> 
+        <input type="checkbox" id="vehicle1" name="vaccine[]" value=<?php echo $data['id']?> >
+        <b><label for="vehicle1"style="color:#428bca;"><?php echo $data['name']?></label></b>       
         <?php
  while($data = mysqli_fetch_assoc($op))
  { 
-   ?>  
-<b><p style="color:#428bca;"><?php echo $data['name']?></p></b>
-<a class="btn btn-primary" href='taken.php?id=<?php echo $data['id'];?>' role="button">Taken</a>
-     
+   ?> 
+<input type="checkbox" id="vehicle1" name="vaccine[]"  value=<?php echo $data['id']?> >
+ <b><label for="vehicle1"style="color:#428bca;"><?php echo $data['name']?></label></b>  \
+
  <?php
- }}
+ }?>
+ <button type="submit" class="btn btn-primary">Taken</button>
+ </form>
+<?php }
  else{?>
   <b><p style="color:#428bca;">There are no vaccines for that national ID </p></b>
+  
 <?php } ?>
+
  </div> 
  <?php 
  # close connection ... 
